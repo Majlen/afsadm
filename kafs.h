@@ -2,22 +2,22 @@
  * Copyright (c) 1995 - 2001, 2003 Kungliga Tekniska Högskolan
  * (Royal Institute of Technology, Stockholm, Sweden).
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 
+ *
  * 3. Neither the name of the Institute nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE INSTITUTE AND CONTRIBUTORS ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -82,7 +82,7 @@
 #define VIOC_AFS_SYSNAME	_VICEIOCTL(38)
 #define VIOC_EXPORTAFS		_VICEIOCTL(39)
 #define VIOCGETCACHEPARAMS	_VICEIOCTL(40)
-#define VIOC_GCPAGS		_VICEIOCTL(48) 
+#define VIOC_GCPAGS		_VICEIOCTL(48)
 
 #define VIOCGETTOK2		_AFSCIOCTL(7)
 #define VIOCSETTOK2		_AFSCIOCTL(8)
@@ -104,31 +104,24 @@ struct ClearToken {
 /* Use k_hasafs() to probe if the machine supports AFS syscalls.
    The other functions will generate a SIGSYS if AFS is not supported */
 
-int k_hasafs (void);
-int k_hasafs_recheck (void);
+int k_hasafs(void);
+int k_hasafs_recheck(void);
 
-int krb_afslog (const char *cell, const char *realm);
-int krb_afslog_uid (const char *cell, const char *realm, uid_t uid);
-int krb_afslog_home (const char *cell, const char *realm,
-			 const char *homedir);
-int krb_afslog_uid_home (const char *cell, const char *realm, uid_t uid,
-			     const char *homedir);
+int krb_afslog(const char *cell, const char *realm);
+int krb_afslog_uid(const char *cell, const char *realm, uid_t uid);
+int krb_afslog_home(const char *cell, const char *realm, const char *homedir);
+int krb_afslog_uid_home(const char *cell, const char *realm, uid_t uid, const char *homedir);
 
-int krb_realm_of_cell (const char *cell, char **realm);
+int krb_realm_of_cell(const char *cell, char **realm);
 
 /* compat */
 #define k_afsklog krb_afslog
 #define k_afsklog_uid krb_afslog_uid
 
-int k_pioctl (char *a_path,
-		  int o_opcode,
-		  struct ViceIoctl *a_paramsP,
-		  int a_followSymlinks);
-int k_unlog (void);
-int k_setpag (void);
-int k_afs_cell_of_file (const char *path, char *cell, int len);
-
-
+int k_pioctl(char *a_path, int o_opcode, struct ViceIoctl *a_paramsP, int a_followSymlinks);
+int k_unlog(void);
+int k_setpag(void);
+int k_afs_cell_of_file(const char *path, char *cell, int len);
 
 /* XXX */
 #ifdef KFAILURE
@@ -139,44 +132,25 @@ int k_afs_cell_of_file (const char *path, char *cell, int len);
 #define KRB5_H_INCLUDED
 #endif
 
-void kafs_set_verbose (void (*kafs_verbose)(void *, const char *), void *);
-int kafs_settoken_rxkad (const char *, struct ClearToken *,
-			     void *ticket, size_t ticket_len);
+void kafs_set_verbose(void (*kafs_verbose)(void *, const char *), void *);
+int kafs_settoken_rxkad(const char *, struct ClearToken *, void *ticket, size_t ticket_len);
 #ifdef KRB_H_INCLUDED
-int kafs_settoken (const char*, uid_t, CREDENTIALS*);
+int kafs_settoken(const char*, uid_t, CREDENTIALS*);
 #endif
 #ifdef KRB5_H_INCLUDED
-int kafs_settoken5 (krb5_context, const char*, uid_t, krb5_creds*);
+int kafs_settoken5(krb5_context, const char*, uid_t, krb5_creds*);
 #endif
-
 
 #ifdef KRB5_H_INCLUDED
-krb5_error_code krb5_afslog_uid (krb5_context context,
-				     krb5_ccache id,
-				     const char *cell,
-				     krb5_const_realm realm,
-				     uid_t uid);
-krb5_error_code krb5_afslog (krb5_context context,
-				 krb5_ccache id, 
-				 const char *cell,
-				 krb5_const_realm realm);
-krb5_error_code krb5_afslog_uid_home (krb5_context context,
-					  krb5_ccache id,
-					  const char *cell,
-					  krb5_const_realm realm,
-					  uid_t uid,
-					  const char *homedir);
+krb5_error_code krb5_afslog_uid(krb5_context context, krb5_ccache id, const char *cell, krb5_const_realm realm, uid_t uid);
+krb5_error_code krb5_afslog(krb5_context context, krb5_ccache id, const char *cell, krb5_const_realm realm);
+krb5_error_code krb5_afslog_uid_home(krb5_context context, krb5_ccache id, const char *cell, krb5_const_realm realm, uid_t uid, const char *homedir);
 
-krb5_error_code krb5_afslog_home (krb5_context context,
-				      krb5_ccache id,
-				      const char *cell,
-				      krb5_const_realm realm,
-				      const char *homedir);
+krb5_error_code krb5_afslog_home(krb5_context context, krb5_ccache id, const char *cell, krb5_const_realm realm, const char *homedir);
 
-krb5_error_code krb5_realm_of_cell (const char *cell, char **realm);
+krb5_error_code krb5_realm_of_cell(const char *cell, char **realm);
 
 #endif
-
 
 #define _PATH_VICE		"/usr/vice/etc/"
 #define _PATH_THISCELL 		_PATH_VICE "ThisCell"
