@@ -1,0 +1,19 @@
+afsadm (1.0-3) unstable; urgency=low
+
+  * upload server part and merge with afsadm-client
+  * rozdeleni baliku na afsadm-server a afsadm-client
+
+ -- Michal Švamberg <svamberg@civ.zcu.cz>  Sat, 14 Feb 2015 14:26:25 +0200
+
+afsadm-client (1.0-2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Repair dependences, manualsite
+
+ -- Michal Švamberg <svamberg@civ.zcu.cz>  Mon, 29 Jul 2013 14:26:25 +0200
+
+afsadm-client (1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #1001)  
+
+ -- Jiří Loudil <loudilj@students.zcu.cz>  Sun, 11 Nov 2012 12:22:14 +0100

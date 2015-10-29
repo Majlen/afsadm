@@ -1,0 +1,85 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH AFSADM 1 "November 11, 2012"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+afsadm \- AFS access control tool client
+.SH SYNOPSIS
+.B afsadm
+.RI [
+.B \-h
+.RI host\ ]\ [ 
+.B \-c
+.RI \(dqcommand\(dq\ ]\ [
+.B \-d 
+.RI ]  
+.SH DESCRIPTION
+This manual page documents briefly the
+.B afsadm
+command.
+.PP
+
+\fBafsadm\fP is a program that allows defined AFS users to
+perform privileged AFS operations. This program is based at 
+client/server architecture, uses SSL encryption and MIT's Kerberos5
+authentication.
+.TP
+Afsadm works in both interactive and command line modes. The interactive mode uses readline library. You can list all available commadns by \fBhelp\fP command.
+.TP
+Program uses a service named 'afsadm' on TCP port 35353 which is defined in the /etc/services file.
+.SH OPTIONS
+This program follows the usual GNU command line syntax.
+.TP
+.B \-d
+Enables debug mode with verbose text output.
+.TP
+.B \-h
+Specifies AFS host name (server).
+.TP
+.B \-c
+Specifies a desired privileged AFS command.
+.SH EXAMPLES
+.B afsadm \-h
+afs_serv.domain.org
+.B \-c
+.RI \(dqvos\ release\ common\(dq
+.B \-d
+.br
+.in 12
+Afsadm tries to connect to AFS managing server located at afs_serv.domain.org
+and perform 'vos release' on volume 'common'. Debug mode is on.
+.HP
+.B afsadm \-h
+.RI afs_serv.domain.org
+.B \-c
+.RI \(dqbackup\ volinfo\ common\(dq
+.br
+.in 12
+Afsadm tries to connect to AFS managing server located at afs_serv.domain.org
+and perform 'backup volinfo' on volume 'common'.
+.HP
+.B afsadm \-h
+.RI afs_serv.domain.org
+.B \-d
+.br
+.in 12
+Afsadm tries to connect to AFS managing server located at afs_serv.domain.org.
+Verbose debug mode is on to show connection information.
+.SH AUTHOR
+afsadm was written by Michal Švamberg.
+.PP
+This manual page was written by Jiří Loudil <loudilj@students.zcu.cz>,
+for the Debian project (and may be used by others).

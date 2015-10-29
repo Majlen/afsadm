@@ -1,0 +1,6 @@
+Nutno vytvorit:
+ /etc/afsadm/afsadmd.keytab
+Pripravit konfiguracni soubor
+ /etc/afsadm/afsadmd.conf
+Povolit firewall pro tcp/53535, viz sluzba afsadm v /etc/services.
+

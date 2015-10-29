@@ -1,0 +1,86 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH AFSADM 1 "11. Listopadu 2012"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH JMÉNO
+afsadm \- nástroj pro správu AFS
+.SH POUŽITÍ
+.B afsadm
+.RI [
+.B \-h
+.RI server\ ]\ [ 
+.B \-c
+.RI \(dqpříkaz\(dq\ ]\ [
+.B \-d 
+.RI ]  
+.SH POPIS
+Tato manuálová stárnka dokumentuje příkaz
+.B afsadm
+.
+.PP
+
+\fBafsadm\fP je program, který umožnuje definovaným uživatelům AFS
+provádět privilegované AFS příkazy. Tento program je založen na klient/server
+architektuře, využívá SSL šifrování a MIT Kerberos5 pro autentikaci.
+.TP
+Afsadm využívá jak řádkový tak i interaktivní uživatelský režim. 
+Interaktivní režim využívá knihovny readline. Veškeré dostupné příkazy jsou 
+dostupné po zadání příkazu \fBhelp\fP.
+.TP
+Program využívá službu 'afsadm' na TCP portu 35353, která je definovaná v souboru /etc/services.
+.SH VOLBY
+Tento program dodržuje klasický sintax řádkových GNU programů.
+.TP
+.B \-d
+Zpřístupnuje ladící režim s textovým výstupem.
+.TP
+.B \-h
+Udává adresu AFS serveru.
+.TP
+.B \-c
+Specifikuje požadovaný privilegovaný AFS příkaz.
+.SH PŘÍKLADY
+.B afsadm \-h
+afs_serv.domain.org
+.B \-c
+.RI \(dqvos\ release\ common\(dq
+.B \-d
+.br
+.in 12
+Program se pokusí připojit k AFS serveru na adrese afs_serv.domain.org a provést
+příkaz 'vos release' na svazku 'common'. Ladící režim je zapnut.
+.HP
+.B afsadm \-h
+.RI afs_serv.domain.org
+.B \-c
+.RI \(dqbackup\ volinfo\ common\(dq
+.br
+.in 12
+Program se pokusí připojit k AFS serveru na adrese afs_serv.domain.org a provést
+příkaz 'backup volinfo' na svazku 'common'.
+.HP
+.B afsadm \-h
+.RI afs_serv.domain.org
+.B \-d
+.br
+.in 12
+Program se pokusí připojit k AFS serveru na adrese afs_serv.domain.org. Ladící režim
+je aktivován a je tak možné získat informace o procesu připojování.
+.SH AUTOR
+afsadm vytvořil Michal Švamberg.
+.PP
+Tuto manuálovou stránku vytvořil Jiří Loudil <loudilj@students.zcu.cz>,
+pro projekt Debian (a možná i jiné).

@@ -1,0 +1,9 @@
+README		this readme file
+afsadm.h	shared header
+Makefile	make script
+afsadmclnt.c    klient afsadm
+afsadmd.c       afsadmd daemon
+server.c        cast afsadmd, ktera ziska povereni z keytabu a vykonava pozadovany prikaz
+parseconf.c     zpracovani konfiguracniho souboru
+afssys.c        torzo libkafs ktere sme vzali z heimdalu a orezali abysme mohli pekne manipulovat s PAGy
+

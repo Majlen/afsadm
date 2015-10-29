@@ -1,0 +1,30 @@
+Source: afsadm
+Section: net
+Priority: optional
+Maintainer: Michal Švamberg <svamberg@civ.zcu.cz>
+Uploaders: Jiří Loudil <loudilj@students.zcu.cz>
+Build-Depends: debhelper (>= 7.0.50~),
+		dh-buildinfo,
+		dh-autoreconf,
+		libreadline-dev,
+		libssl-dev,
+		libkrb5-dev,
+		libncurses5-dev
+Standards-Version: 3.9.3
+Homepage: http://support.zcu.cz/index.php/LPS:Afsadm
+
+Package: afsadm-client
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, krb5-user, openafs-krb5, libreadline6
+Description: AFS access control tool - client part
+ Afsadm is a simple tool that allows defined 
+ users to perform privileged operations
+ in AFS.
+
+Package: afsadm-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, krb5-user, openafs-krb5, openafs-client, libreadline6, openbsd-inetd, update-inetd
+Description: AFS access control tool - server part
+ Afsadm is a simple tool that allows defined 
+ users to perform privileged operations
+ in AFS.

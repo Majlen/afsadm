@@ -1,0 +1,11 @@
+afsadm-client for Debian
+------------------------
+
+You need to manually append following line to the /etc/services file: 
+	afsadm		35353/tcp			# afsadm tool
+
+Binary package does this for you automatically.
+
+
+
+
