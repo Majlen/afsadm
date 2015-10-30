@@ -183,7 +183,7 @@ int client_receive_reply(krb5_context context, krb5_auth_context auth_context, i
 			if (write(1, packet.data, packet.length) == -1)
 				printf("Failed write to stdout.\n");
 
-			krb5_xfree(packet.data);
+			krb5_free_data_contents(context, &packet);
 		}
 	}
 
@@ -196,11 +196,6 @@ int client_receive_reply(krb5_context context, krb5_auth_context auth_context, i
 	/* All has been received - close socket */
 	close(sock);
 
-	/* set NULL auth_context rcache */
-	if (retval = krb5_auth_con_setrcache(context, auth_context, NULL)) {
-		com_err(progname, retval, "while setting rcache to NULL");
-		return 1;
-	}
 	return 0;
 }
 
@@ -379,7 +374,9 @@ int client_init_and_authenticate(krb5_context *context, krb5_auth_context *auth_
 	/* Do authetication */
 	retval = krb5_sendauth(*context, auth_context, (krb5_pointer) &sock, AFSADM_VERSION, client, server, AP_OPTS_MUTUAL_REQUIRED, &cksum_data, 0, ccdef, &err_ret, &rep_ret, NULL);
 
-	krb5_free_principal(*context, server);       /* finished using it */
+	krb5_free_principal(*context, server);       /* finished using these */
+	krb5_free_principal(*context, client);
+	krb5_cc_close(*context, ccdef);
 
 	if (rep_ret)
 		krb5_free_ap_rep_enc_part(*context, rep_ret);
@@ -487,6 +484,8 @@ int client_send_request(krb5_context context, krb5_auth_context auth_context, in
 		return -1;
 	}
 
+	krb5_free_data_contents(context, &kdata);
+
 	if (debug)
 		fprintf(stderr, "Sent encrypted message: %d bytes\n", len);
 
@@ -515,9 +514,7 @@ int do_request(char *host, int port, char *serv, char *request) {
 	else if (client_receive_reply(context, auth_context, socket) < 0)
 		return 1;
 
-	//FIXME: There is no way to close or destroy rcache declared in krb5 headers
-	//krb5_rc_close(context, rcache);
-	krb5_auth_con_free(context, auth_context);
+	krb5_auth_con_free(context, auth_context); /* Frees the embedded rcache also */
 	krb5_free_context(context);
 
 	return 0;
