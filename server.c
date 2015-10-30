@@ -177,7 +177,7 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 		free(pathenv);
 		free(localcmd);
 
-		if(k_hasafs())
+		if (k_hasafs())
 			k_unlog();
 
 		krb5_cc_destroy(context, ccache);
