@@ -145,7 +145,6 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 		krb5_get_init_creds_opt_init(&opts);
 		opts.preauth_list = preauth;
 
-		//if (retval = krb5_get_in_tkt_with_keytab(context, 0, NULL, NULL, preauth, keytab, ccache, &creds, 0)) {
 		if (retval = krb5_get_init_creds_keytab(context, &creds, me, keytab, 0, NULL, &opts)) {
 			syslog(LOG_ERR, "%s while getting tgt", error_message(retval));
 			krb5_cc_destroy(context, ccache);
