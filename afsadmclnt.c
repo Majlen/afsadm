@@ -25,9 +25,9 @@ char *progname;
 
 /*
  *
- *			CLIENT		SERVER
+ *	CLIENT		SERVER
  *
- *				---- connect ------->
+ *	---- connect ------->
  *	<-- INIT msg ------->
  *	--- INIT msg copy -->
  *
@@ -201,6 +201,7 @@ int client_receive_reply(krb5_context context, krb5_auth_context auth_context, i
 		com_err(progname, retval, "while setting rcache to NULL");
 		return 1;
 	}
+	return 0;
 }
 
 /********************************************************
@@ -309,7 +310,8 @@ char* connect_to_server(char *host, int port, int *retsock) {
  ***********************************************************************/
 int client_init_and_authenticate(krb5_context *context, krb5_auth_context *auth_context, krb5_rcache *rcache, char *dnsname, char *serv, int sock) {
 	struct sockaddr_in s_saddr, c_saddr;
-	int len;
+	socklen_t len;
+	ssize_t size;
 	char buff[BUFFSIZE];
 	char *admhost = NULL;
 	char *afsadmhostname = AFSADM_HOSTNAME;
@@ -348,19 +350,19 @@ int client_init_and_authenticate(krb5_context *context, krb5_auth_context *auth_
 	}
 
 	/* Init dialog: receive INIT message from server and send it back */
-	if ((len = recv(sock, buff, sizeof(buff), 0)) < 0) {
+	if ((size = recv(sock, buff, sizeof(buff), 0)) < 0) {
 		com_err(progname, errno, "while receiving init message");
 		return 1;
 	}
 
-	if (debug || len == 0)
-		fprintf(stderr, "Received init msg: %d bytes\n", len);
+	if (debug || size == 0)
+		fprintf(stderr, "Received init msg: %zd bytes\n", size);
 
-	if (len == 0)
+	if (size == 0)
 		return 1;
 
 	/* Send message back to the server */
-	if (send(sock, buff, len, 0) < len) {
+	if (send(sock, buff, size, 0) < size) {
 		com_err(progname, errno, "while sending init reply");
 		return 1;
 	}
@@ -539,7 +541,6 @@ int main(int argc, char **argv) {
 
 	/*
 	 * Parse command line arguments
-	 *
 	 */
 	opterr = 0;
 	while ((ch = getopt(argc, argv, "ds:c:h:")) != EOF) {

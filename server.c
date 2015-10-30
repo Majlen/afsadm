@@ -176,6 +176,6 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 			k_unlog();
 
 		krb5_cc_destroy(context, ccache);
-		return(0);
+		return 0;
 	}
 }

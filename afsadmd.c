@@ -15,16 +15,16 @@
 
 /**************************************************************************/
 
-extern krb5_deltat 	krb5_clockskew;
+extern krb5_deltat krb5_clockskew;
 int debug;
 
-#define BUFFSIZE	2000
-#define PIPEBUFF	501
-#define RC_PIECE_MAXLEN	50
+#define BUFFSIZE 2000
+#define PIPEBUFF 501
+#define RC_PIECE_MAXLEN 50
 
 int do_krb5_comm(krb5_context context, krb5_keytab keytab, krb5_principal server, char *cmddir) {
-	struct sockaddr_in	c_saddr, s_saddr;
-	int namelen;
+	struct sockaddr_in c_saddr, s_saddr;
+	socklen_t namelen;
 	int sock = 0;
 	int len;
 	char buff[BUFFSIZE];
@@ -204,10 +204,10 @@ int do_krb5_comm(krb5_context context, krb5_keytab keytab, krb5_principal server
 				newtime = time(NULL);
 
 				/* Send buffer when
-				 *	a) buffer is full
+				 *    a) buffer is full
 				 *    b) buffer contains data and
-				 *    	1) end-of-file encountered (end flag)
-				 *		2) buffer sent before 1s
+				 *      1) end-of-file encountered (end flag)
+				 *      2) buffer sent before 1s
 				 */
 				if ((n == PIPEBUFF) || (((newtime > oldtime) || end ) && (n != 0))) {
 					/* Prepare data for sending */

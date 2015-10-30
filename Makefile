@@ -3,6 +3,8 @@ CC = gcc
 
 CFLAGS	= `dpkg-buildflags --get CFLAGS`
 CFLAGS += `dpkg-buildflags --get CPPFLAGS`
+#clang won't shut up about associations in conditional clauses
+CFLAGS += -Wno-parentheses
 
 LDFLAGS = `dpkg-buildflags --get LDFLAGS`
 
@@ -11,7 +13,7 @@ LDFLAGS = `dpkg-buildflags --get LDFLAGS`
 LIBS 	= -L/usr/lib -L. -lkrb5 -lcom_err -lkafs
 
 #CLNTLIBS = -L/usr/lib -lkrb5 -lcom_err -lcrypto -lreadline -lcurses -lk5crypto -lnsl
-CLNTLIBS = -L/usr/lib -lkrb5 -lcom_err -lreadline -lk5crypto 
+CLNTLIBS = -L/usr/lib -lkrb5 -lcom_err -l:libreadline.so.6 -lk5crypto
 INCLUDES = -I/usr/include
 
 SOURCES=parceconf.c server.c struct.c afsadmd.c afsadmclnt.c

@@ -284,7 +284,7 @@ int read_object(FILE *fr, int action) {
 * Parse configfile
 *
 *********************************************************************/
-int parse_config_file(cnf) {
+int parse_config_file(char* cnf) {
 	int result = 0;
 	FILE *fr;
 
