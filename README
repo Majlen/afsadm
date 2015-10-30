@@ -1,9 +1,12 @@
+Continuation of tool used on University of West Bohemia.
+
+The code is very old. It only got attention, when the tool started throwing assertion failures and other warnings.
+
 README		this readme file
 afsadm.h	shared header
 Makefile	make script
-afsadmclnt.c    klient afsadm
+afsadmclnt.c    afsadm client
 afsadmd.c       afsadmd daemon
-server.c        cast afsadmd, ktera ziska povereni z keytabu a vykonava pozadovany prikaz
-parseconf.c     zpracovani konfiguracniho souboru
-afssys.c        torzo libkafs ktere sme vzali z heimdalu a orezali abysme mohli pekne manipulovat s PAGy
-
+server.c        part of afsadmd, gets authorization from keytab and runs specified command
+parseconf.c     reding config file
+afssys.c        old, stripped version of libkafs from heimdal krb5 (used for better manipulation with PAGs)
