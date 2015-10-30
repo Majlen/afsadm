@@ -332,7 +332,7 @@ int client_init_and_authenticate(krb5_context *context, krb5_auth_context *auth_
 	}
 
 	signal(SIGPIPE, SIG_IGN);
-	if (!valid_cksumtype(CKSUMTYPE_CRC32)) {
+	if (!krb5_c_valid_cksumtype(CKSUMTYPE_CRC32)) {
 		com_err(progname, KRB5_PROG_SUMTYPE_NOSUPP, "while using CRC-32");
 		return 1;
 	}
@@ -515,7 +515,8 @@ int do_request(char *host, int port, char *serv, char *request) {
 	else if (client_receive_reply(context, auth_context, socket) < 0)
 		return 1;
 
-	krb5_rc_destroy(context, rcache);
+	//FIXME: There is no way to close or destroy rcache declared in krb5 headers
+	//krb5_rc_close(context, rcache);
 	krb5_auth_con_free(context, auth_context);
 	krb5_free_context(context);
 

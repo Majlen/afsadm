@@ -100,6 +100,7 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 		krb5_creds creds;
 		krb5_principal tgtserver;
 		krb5_error_code retval;
+		krb5_get_init_creds_opt opts;
 
 		pathenv = malloc((strlen(cmddir) + 6) * sizeof(char));
 		if (pathenv == NULL) {
@@ -141,7 +142,11 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 
 		creds.server = tgtserver;
 
-		if (retval = krb5_get_in_tkt_with_keytab(context, 0, NULL, NULL, preauth, keytab, ccache, &creds, 0)) {
+		krb5_get_init_creds_opt_init(&opts);
+		opts.preauth_list = preauth;
+
+		//if (retval = krb5_get_in_tkt_with_keytab(context, 0, NULL, NULL, preauth, keytab, ccache, &creds, 0)) {
+		if (retval = krb5_get_init_creds_keytab(context, &creds, tgtserver, keytab, 0, NULL, &opts)) {
 			syslog(LOG_ERR, "%s while getting tgt", error_message(retval));
 			krb5_cc_destroy(context, ccache);
 			exit(1);
