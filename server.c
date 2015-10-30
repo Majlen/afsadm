@@ -152,6 +152,12 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 			exit(1);
 		}
 
+		if (retval = krb5_cc_store_cred(context, ccache, &creds)) {
+			syslog(LOG_ERR, "%s while saving credentials to ccache", error_message(retval));
+			krb5_cc_destroy(context, ccache);
+			exit(1);
+		}
+
 		if (k_hasafs())
 			k_setpag();
 
