@@ -134,7 +134,9 @@ int do_command(krb5_context context, krb5_keytab keytab, krb5_principal me, char
 		memset((char *)&creds, 0, sizeof(creds));
 		creds.client = me;
 
-		if ((retval = krb5_build_principal_ext(context, &tgtserver, krb5_princ_realm(context, me)->length, krb5_princ_realm(context, me)->data, tgtname.length, tgtname.data, krb5_princ_realm(context, me)->length, krb5_princ_realm(context, me)->data, 0))) {
+		krb5_data *realm = krb5_princ_realm(context, me);
+
+		if ((retval = krb5_build_principal_ext(context, &tgtserver, realm->length, realm->data, tgtname.length, tgtname.data, realm->length, realm->data, 0))) {
 			syslog(LOG_ERR, "%s while building server name", error_message(retval));
 			krb5_cc_destroy(context, ccache);
 			exit(1);
