@@ -35,9 +35,10 @@ afsadmd: $(OBJECTS)
 
 libkafs.so:
 	#gcc -DAFS_PIOCTL -DAFS_SETPAG -fPIC -c afssys.c -I/usr/local/krb5/include -Wall
-	#magickou kontantu sem vycetl z /etc/name_to_sysnum
+	#magic constant read from /etc/name_to_sysnum
 	gcc -DAFS_SYSCALL=65 -fPIC -c afssys.c -I/usr/include/krb5 -Wall
-	ld -G -z text -o $(@) afssys.o
+	#ld -G -z text -o $(@) afssys.o
+	gcc -shared -o $(@) afssys.o
 
 .c.o:
 	$(CC) -c $(DEFINES) $(CFLAGS) $(INCLUDES) $<
