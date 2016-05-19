@@ -198,6 +198,7 @@ int add_regexp_to_comm(char *grp, char *regexp) {
 
 	if (regcomp(&re, regexp, REG_EXTENDED))
 		return F_REGEXP;
+	regfree(&re);
 
 	if ((actcmd->grptable = realloc(actcmd->grptable, sizeof(struct group *) * (actcmd->grpnum + 1))) == NULL)
 		return F_NOMEM;
@@ -399,6 +400,7 @@ int chk_cmd_regexp(char *cmd, struct command *cmdp, char *user) {
 			if (lastresult == CHK_OK)
 				return lastresult;
 		}
+		regfree(&re);
 	}
 
 	/* if lastresult has been changed (cmd match regexp) - return it */
