@@ -38,8 +38,10 @@ int create_group(char *name) {
 	if ((gp = malloc(sizeof(struct group))) == NULL)
 		return(F_NOMEM);
 
-	if ((gp->grpname = malloc(sizeof(char) * (strlen(name) + 1))) == NULL)
+	if ((gp->grpname = malloc(sizeof(char) * (strlen(name) + 1))) == NULL) {
+		free(gp);
 		return(F_NOMEM);
+	}
 
 	strcpy(gp->grpname, name);
 
@@ -79,8 +81,10 @@ int add_to_group(char *membername) {
 	if ((mem = malloc(sizeof(struct member))) == NULL)
 		return F_NOMEM;
 
-	if ((mem->memname = malloc((strlen(membername) + 1) * sizeof(char))) == NULL)
+	if ((mem->memname = malloc((strlen(membername) + 1) * sizeof(char))) == NULL) {
+		free(mem);
 		return F_NOMEM;
+	}
 
 	strcpy(mem->memname, membername);
 	mem->nextmem = NULL;
@@ -121,9 +125,7 @@ int create_command(char *cmdid) {
 
 
 	/* Check duplicity */
-	for (cp = cmd_table; ; cp = cp->nextcmd) {
-		if (cp == NULL)
-			break;
+	for (cp = cmd_table; cp != NULL ; cp = cp->nextcmd) {
 		lastcmd = cp;
 		if (strcmp(cp->cmdid, cmdid) == 0)
 			return F_COMMANDEXISTS;
@@ -132,8 +134,10 @@ int create_command(char *cmdid) {
 	if ((cp = malloc(sizeof(struct command))) == NULL)
 		return F_NOMEM;
 
-	if ((cp->cmdid = malloc(sizeof(char) * (strlen(cmdid) + 1)) ) == NULL)
+	if ((cp->cmdid = malloc(sizeof(char) * (strlen(cmdid) + 1)) ) == NULL) {
+		free(cp);
 		return F_NOMEM;
+	}
 
 	strcpy(cp->cmdid, cmdid);
 
@@ -268,10 +272,16 @@ char *get_list_of_groups(void) {
 			if (p == NULL) {
 				p = malloc(sizeof(char) * (strlen(pg->grpname) + 2));
 				p[0] = '\0';
-			} else
-				p = realloc(p, sizeof(char) * (strlen(p) + strlen(pg->grpname) + 2));
-			if (p == NULL)
-				break;
+			} else {
+				char *tmp = realloc(p, sizeof(char) * (strlen(p) + strlen(pg->grpname) + 2));
+				if (tmp != NULL) {
+					p = tmp;
+				} else {
+					free(p);
+					p = tmp;
+					break;
+				}
+			}
 			strcat(p, pg->grpname);
 			strcat(p, "\n");
 		}
@@ -288,17 +298,21 @@ char *get_list_of_cmd(void) {
 	struct command *pc;
 	char *p = NULL;
 
-	for (pc = cmd_table; ; pc = pc->nextcmd) {
-		if (pc == NULL)
-			break;
+	for (pc = cmd_table; pc != NULL ; pc = pc->nextcmd) {
 		if (pc->list != NULL) {
 			if (p == NULL) {
 				p = malloc(sizeof(char) * (strlen(pc->list) + 2));
 				p[0] = '\0';
-			} else
-				p = realloc(p, sizeof(char) * (strlen(p) + strlen(pc->list) + 2));
-			if (p == NULL)
-				break;
+			} else {
+				char *tmp = realloc(p, sizeof(char) * (strlen(p) + strlen(pc->list) + 2));
+				if (tmp != NULL) {
+					p = tmp;
+				} else {
+					free(p);
+					p = tmp;
+					break;
+				}
+			}
 			strcat(p, pc->list);
 			strcat(p, "\n");
 		}
@@ -315,9 +329,7 @@ char *get_help(char *cmd) {
 	struct command *pc;
 	char *p = NULL;
 
-	for (pc = cmd_table; ; pc = pc->nextcmd) {
-		if (pc == NULL)
-			break;
+	for (pc = cmd_table; pc != NULL ; pc = pc->nextcmd) {
 		if ((pc->list != NULL) && (pc->help != NULL) && (strcmp(cmd, pc->list) == 0)) {
 			p = malloc(sizeof(char) * (strlen(pc->help) + 1));
 			if (p != NULL)

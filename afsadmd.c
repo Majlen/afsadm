@@ -34,7 +34,7 @@ int do_krb5_comm(krb5_context context, krb5_keytab keytab, krb5_principal server
 	krb5_auth_context auth_context = NULL;
 	krb5_ticket *ticket;
 	krb5_address ckaddr, skaddr;
-	krb5_rcache rcache;
+	krb5_rcache rcache = NULL;
 	krb5_data rcache_name;
 	long srand, rrand;
 	int fd[2];
@@ -259,6 +259,7 @@ int do_krb5_comm(krb5_context context, krb5_keytab keytab, krb5_principal server
 
 	//FIXME: There is no way to close or destroy rcache declared in krb5 headers
 	//krb5_rc_destroy(context, rcache);
+	rcache = NULL;
 
 	/* set auth_context rcache */
 	if (retval = krb5_auth_con_setrcache(context, auth_context, rcache)) {
